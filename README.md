@@ -12,11 +12,14 @@ based on [mozilla-services/react-jsonschema-form](https://github.com/mozilla-ser
 * Select list (select)
 * Date
 
-![alt text](http://thewebland.net/wp-content/uploads/2018/01/field-list.png)
-![alt text](http://thewebland.net/wp-content/uploads/2018/01/select-dropdown.png)
-
 Submit functionality is not working. So you could write there what ever you want
 
 **Any comments/updates are welcome :)**
 
 Site: [thewebland.net](thewebland.net)
+
+
+**Screenshots**
+
+![alt text](http://thewebland.net/wp-content/uploads/2018/01/field-list.png)
+![alt text](http://thewebland.net/wp-content/uploads/2018/01/select-dropdown.png)
