@@ -1,0 +1,20 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+/*.rjsf button[type="submit"] {  display: none; }*/
+
+.editable-row:hover {
+  /*background-color: rgba(0,0,0,.03);*/
+}
+
+.card {
+  border: none !important;
+  width: 100rem;
+}
+
+.field-array {
+  width: 20rem;
+}
