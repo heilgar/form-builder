@@ -69,28 +69,28 @@ const updateField = (state, data) => {
 
     delete(formData.name);
 
+    const existing = Object.keys(state.schema.properties);
+    let newName = slugify(formData.title);
+
     state.schema.properties[name] = formData;
 
     if (formData.required) {
         // Ensure uniquely required field names
-        state.schema.required = unique(requiredFields.concat(name));
+        state.schema.required = unique(requiredFields.concat(newName));
     } else {
         state.schema.required = requiredFields
-            .filter(requiredFieldName => name !== requiredFieldName);
+            .filter(requiredFieldName => newName !== requiredFieldName);
     }
 
-    // temporary I won't use new slug for field
-    // const existing = Object.keys(state.schema.properties);
-    // let newName = slugify(formData.title);
-    // if (name !== newName && existing.indexOf(newName) !== -1) {
-    //     // Field name already exists, we can't update state
-    //     const error = `Duplicate field name "${newName}", operation aborted.`;
-    //     return {...state, error};
-    // }
-    // if (newName !== name) {
-    //     return renameField(state, name, newName);
-    // }
+    if (name !== newName && existing.indexOf(newName) !== -1) {
+        // Field name already exists, we can't update state
+        const error = `Duplicate field name "${newName}", operation aborted.`;
+        return {...state, error};
+    }
 
+    if (newName !== name) {
+        return renameField(state, name, newName);
+    }
 
     return {...state, error: null};
 };
@@ -114,26 +114,27 @@ const removeField = (state, name) => {
     return {...state, error: null};
 };
 
-// const renameField = (state, name, newName) => {
-//     const schema = clone(state.schema.properties[name]);
-//     const uiSchema = clone(state.uiSchema[name]);
-//     const order = state.uiSchema["ui:order"];
-//     const required = state.schema.required;
-//
-//     delete state.schema.properties[name];
-//     delete state.uiSchema[name];
-//
-//     state.schema.properties[newName] = schema;
-//     state.schema.required = required.map(fieldName => {
-//         return fieldName === name ? newName : fieldName;
-//     });
-//     state.uiSchema[newName] = uiSchema;
-//     state.uiSchema["ui:order"] = order.map(fieldName => {
-//         return fieldName === name ? newName : fieldName;
-//     });
-//
-//     return {...state, error: null};
-// };
+const renameField = (state, name, newName) => {
+    const schema = clone(state.schema.properties[name]);
+    const uiSchema = clone(state.uiSchema[name]);
+    const order = state.uiSchema["ui:order"];
+    const required = state.schema.required;
+
+    delete state.schema.properties[name];
+    delete state.uiSchema[name];
+
+    state.schema.properties[newName] = schema;
+    state.schema.required = unique(required.map(fieldName => {
+        return fieldName === name ? newName : fieldName;
+    }));
+
+    state.uiSchema[newName] = uiSchema;
+    state.uiSchema["ui:order"] = order.map(fieldName => {
+        return fieldName === name ? newName : fieldName;
+    });
+
+    return {...state, error: null};
+};
 
 const swapFields = (state, source, target) => {
     const order = state.uiSchema["ui:order"];
