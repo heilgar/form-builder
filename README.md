@@ -7,6 +7,7 @@ based on [mozilla-services/react-jsonschema-form](https://github.com/mozilla-ser
 **TODO:**
 * Update packages to latest versions
 * Use typescript?
+* Add multilanguage support
 
 **Existed fields:**
 * Short text (input)
